@@ -9,6 +9,7 @@ require 'socket'
 require 'xmpp4r/stream'
 require 'xmpp4r/semaphore'
 require 'clienttester'
+require 'stringio'
 include Jabber
 
 # Jabber::debug = true
@@ -164,4 +165,10 @@ class StreamTest < Test::Unit::TestCase
     busywait { n == 3 }
     assert_equal(3, n)
   end
+  
+  def test_stream_receive
+    stream = Stream.new
+    fd = StringIO.new("<stream:stream from='wonderland.lit' id='cb1493b8-a682-41c2-b412-36f84fb3e267' xml:lang='en' xmlns:stream='http://etherx.jabber.org/streams' version='1.0' xmlns='jabber:client'/>" + "<stream:features>\n<starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'>\n<required/>\n</starttls>\n</stream:features>")
+    stream.start(fd)
+  end # test_stream_receive
 end
